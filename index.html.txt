@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>צ'יל & Feel – הרשמה לעיסוי</title>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --sky-light: #d6edf8;
+      --sky-mid: #8ecae6;
+      --sky-deep: #2196c4;
+      --abbott-blue: #0078be;
+      --abbott-dark: #004f82;
+      --wave: #1565a8;
+      --white: #ffffff;
+      --glass: rgba(255,255,255,0.55);
+      --shadow: rgba(0,100,180,0.15);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Heebo', sans-serif;
+      background: linear-gradient(160deg, #c8e8f5 0%, #8ecae6 40%, #5ab4dc 75%, #2196c4 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .clouds {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .cloud {
+      position: absolute;
+      background: radial-gradient(ellipse, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 70%);
+      border-radius: 50%;
+      animation: drift linear infinite;
+    }
+    .cloud:nth-child(1) { width: 500px; height: 200px; top: 5%; left: -10%; animation-duration: 60s; opacity: 0.6; }
+    .cloud:nth-child(2) { width: 350px; height: 150px; top: 20%; left: 60%; animation-duration: 80s; opacity: 0.4; }
+    .cloud:nth-child(3) { width: 600px; height: 220px; top: 50%; left: -20%; animation-duration: 100s; opacity: 0.3; }
+    .cloud:nth-child(4) { width: 280px; height: 120px; top: 70%; left: 70%; animation-duration: 70s; opacity: 0.5; }
+    .cloud:nth-child(5) { width: 400px; height: 160px; top: 85%; left: 10%; animation-duration: 90s; opacity: 0.35; }
+
+    @keyframes drift {
+      from { transform: translateX(-10%); }
+      to   { transform: translateX(110vw); }
+    }
+
+    .particles {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .particle {
+      position: absolute;
+      width: 4px; height: 4px;
+      background: rgba(255,255,255,0.6);
+      border-radius: 50%;
+      animation: float-up linear infinite;
+    }
+    @keyframes float-up {
+      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 0.5; }
+      100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+    }
+
+    .wave-footer {
+      position: fixed;
+      bottom: 0; left: 0; width: 100%;
+      z-index: 0;
+      overflow: hidden;
+      line-height: 0;
+    }
+    .wave-footer svg { display: block; width: 100%; }
+
+    .container {
+      position: relative;
+      z-index: 10;
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 36px;
+      animation: fadeDown 0.8s ease both;
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo-wrap {
+      display: inline-block;
+      background: var(--glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 24px;
+      padding: 24px 36px 20px;
+      border: 1.5px solid rgba(255,255,255,0.85);
+      box-shadow: 0 8px 40px rgba(0,80,160,0.18), inset 0 1px 0 rgba(255,255,255,0.9);
+      margin-bottom: 20px;
+    }
+
+    .logo-main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+    .logo-feel {
+      font-family: 'Dancing Script', cursive;
+      font-size: 52px;
+      background: linear-gradient(135deg, #1a6fa8, #2196c4, #0d4f80);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+    .logo-amp {
+      font-family: 'Dancing Script', cursive;
+      font-size: 46px;
+      color: var(--abbott-dark);
+      line-height: 1;
+      margin: 0 2px;
+    }
+    .logo-hebrew {
+      font-family: 'Heebo', sans-serif;
+      font-weight: 900;
+      font-size: 44px;
+      background: linear-gradient(135deg, #0078be, #1a6fa8, #004f82);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+
+    .logo-wave {
+      width: 200px;
+      margin: 0 auto 12px;
+    }
+
+    .subtitle {
+      color: var(--abbott-dark);
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.7;
+      max-width: 480px;
+      margin: 0 auto;
+      text-align: center;
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(8px);
+      border-radius: 16px;
+      padding: 18px 24px;
+      border: 1px solid rgba(255,255,255,0.8);
+      box-shadow: 0 4px 20px var(--shadow);
+      animation: fadeDown 0.8s 0.2s ease both;
+    }
+
+    .info-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin: 24px 0;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .chip {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 50px;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--abbott-dark);
+      border: 1.5px solid rgba(255,255,255,0.9);
+      box-shadow: 0 2px 12px var(--shadow);
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    .form-card {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 28px;
+      padding: 36px 32px;
+      border: 1.5px solid rgba(255,255,255,0.85);
+      box-shadow: 0 12px 60px rgba(0,80,160,0.18), inset 0 1px 0 rgba(255,255,255,0.9);
+      animation: fadeUp 0.8s 0.4s ease both;
+    }
+
+    .form-title {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--abbott-dark);
+      margin-bottom: 28px;
+      letter-spacing: -0.3px;
+    }
+    .form-title span {
+      background: linear-gradient(135deg, var(--abbott-blue), var(--wave));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .field-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--abbott-dark);
+      margin-bottom: 8px;
+      letter-spacing: 0.3px;
+    }
+    label .req { color: var(--abbott-blue); }
+
+    input {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 14px;
+      border: 1.5px solid rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.75);
+      font-family: 'Heebo', sans-serif;
+      font-size: 15px;
+      color: #1a2a40;
+      outline: none;
+      transition: all 0.25s ease;
+      box-shadow: 0 2px 10px rgba(0,80,160,0.08);
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    input::placeholder { color: #90aacc; }
+    input:focus {
+      border-color: var(--abbott-blue);
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 0 0 3px rgba(0,120,190,0.15), 0 2px 10px rgba(0,80,160,0.1);
+      transform: translateY(-1px);
+    }
+
+    .gender-group {
+      display: flex;
+      gap: 16px;
+    }
+    .gender-option {
+      flex: 1;
+      cursor: pointer;
+    }
+    .gender-option input[type="radio"] {
+      display: none;
+    }
+    .gender-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 10px;
+      border-radius: 14px;
+      border: 2px solid rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.6);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,80,160,0.08);
+    }
+    .gender-label .icon { font-size: 26px; }
+    .gender-label .text { font-size: 13px; font-weight: 700; color: var(--abbott-dark); }
+    .gender-label .sub  { font-size: 11px; color: #6699bb; }
+    .gender-option input:checked + .gender-label {
+      border-color: var(--abbott-blue);
+      background: rgba(0,120,190,0.12);
+      box-shadow: 0 0 0 3px rgba(0,120,190,0.18), 0 4px 16px rgba(0,80,160,0.12);
+      transform: translateY(-2px);
+    }
+    .gender-option input:checked + .gender-label .text {
+      color: var(--abbott-blue);
+    }
+
+    .slots-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      max-height: 220px;
+      overflow-y: auto;
+      padding: 4px;
+    }
+    .slot-btn {
+      padding: 10px 4px;
+      border-radius: 10px;
+      border: 1.5px solid rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.6);
+      font-family: 'Heebo', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--abbott-dark);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+    .slot-btn:hover:not(:disabled) {
+      border-color: var(--abbott-blue);
+      background: rgba(0,120,190,0.1);
+      transform: translateY(-1px);
+    }
+    .slot-btn.selected {
+      border-color: var(--abbott-blue);
+      background: rgba(0,120,190,0.15);
+      color: var(--abbott-dark);
+      box-shadow: 0 0 0 2px rgba(0,120,190,0.2);
+    }
+    .slot-btn.full {
+      background: rgba(200,200,210,0.4);
+      color: #aab8cc;
+      cursor: not-allowed;
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+    .slot-time { display: block; font-size: 13px; }
+    .slot-avail { display: block; font-size: 10px; color: #6699bb; margin-top: 2px; font-weight: 400; }
+
+    .slots-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .avail-badge {
+      background: rgba(0,120,190,0.15);
+      color: var(--abbott-blue);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(0,120,190,0.3);
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, var(--abbott-blue) 0%, var(--wave) 100%);
+      color: white;
+      border: none;
+      border-radius: 16px;
+      font-family: 'Heebo', sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 28px;
+      box-shadow: 0 6px 24px rgba(0,80,160,0.35);
+      letter-spacing: 0.3px;
+      position: relative;
+      overflow: hidden;
+    }
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0,80,160,0.4);
+    }
+
+    .success-card {
+      display: none;
+      text-align: center;
+      padding: 48px 32px;
+    }
+    .success-icon {
+      font-size: 72px;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .success-title {
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--abbott-dark);
+      margin-bottom: 10px;
+    }
+    .success-detail {
+      font-size: 15px;
+      color: #5580aa;
+      line-height: 1.8;
+      margin-bottom: 24px;
+    }
+    .success-detail strong { color: var(--abbott-dark); }
+
+    .back-btn {
+      background: rgba(255,255,255,0.7);
+      border: 1.5px solid rgba(0,120,190,0.4);
+      color: var(--abbott-blue);
+      padding: 12px 28px;
+      border-radius: 12px;
+      font-family: 'Heebo', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .error-msg {
+      color: #c0392b;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 6px;
+      display: none;
+    }
+    .field-error input { border-color: #e74c3c !important; }
+    .field-error .error-msg { display: block; }
+
+    .spots-bar {
+      background: rgba(255,255,255,0.6);
+      border-radius: 50px;
+      height: 8px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .spots-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--abbott-blue), var(--sky-mid));
+      border-radius: 50px;
+      transition: width 0.5s ease;
+    }
+    .spots-text {
+      font-size: 12px;
+      color: #5580aa;
+      margin-top: 6px;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    @media (max-width: 480px) {
+      .logo-feel { font-size: 38px; }
+      .logo-hebrew { font-size: 34px; }
+      .slots-grid { grid-template-columns: repeat(3, 1fr); }
+      .form-card { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="clouds">
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+  </div>
+
+  <div class="particles" id="particles"></div>
+
+  <div class="wave-footer">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="rgba(255,255,255,0.25)"/>
+      <path d="M0,55 C360,20 720,80 1080,45 C1260,30 1380,60 1440,55 L1440,80 L0,80 Z" fill="rgba(255,255,255,0.15)"/>
+    </svg>
+  </div>
+
+  <div class="container">
+    <div class="header">
+      <div class="logo-wrap">
+        <div class="logo-main">
+          <span class="logo-hebrew">צ'יל</span>
+          <span class="logo-amp">&amp;</span>
+          <span class="logo-feel">Feel</span>
+        </div>
+        <div class="logo-wave">
+          <svg viewBox="0 0 200 30" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10,15 C50,5 80,25 110,15 C140,5 170,20 190,14" stroke="#1565a8" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M5,20 C45,10 90,30 130,18 C155,10 175,22 195,17" stroke="#2196c4" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="abbott-brand">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Abbott_Laboratories_logo.svg/1280px-Abbott_Laboratories_logo.svg.png" alt="Abbott" style="height:36px; object-fit:contain;"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="subtitle">
+      זה הזמן לעצור רגע, לנשום עמוק, ולהתמסר לחוויה מרגיעה של מגע ושחרור.<br/>
+      מוזמנים להירשם לעיסוי ולהעניק לעצמכם רגע קטן של שלווה.<br/>
+      <strong>תנו לנו לדאוג שתצאו רגועים ומחויכים 😊</strong>
+    </div>
+
+    <div class="info-chips">
+      <div class="chip">⏱️ 15 דקות לעיסוי</div>
+      <div class="chip">🕙 10:00–13:00</div>
+      <div class="chip">🛏️ 4 עמדות</div>
+      <div class="chip">✨ <span id="spotsLeft">48</span> מקומות</div>
+    </div>
+
+    <div class="form-card" id="formCard">
+      <div class="form-title">
+        <span>הרשמה</span> לעיסוי
+      </div>
+
+      <div>
+        <div class="spots-bar">
+          <div class="spots-fill" id="spotsFill" style="width:100%"></div>
+        </div>
+        <div class="spots-text" id="spotsBarText">48 מקומות פנויים מתוך 48</div>
+      </div>
+
+      <br/>
+
+      <div class="field-group" id="fieldName">
+        <label>שם מלא <span class="req">*</span></label>
+        <input type="text" id="fullName" placeholder="ישראל ישראלי" autocomplete="off"/>
+        <div class="error-msg">נא להזין שם מלא</div>
+      </div>
+
+      <div class="field-group" id="fieldPhone">
+        <label>טלפון <span class="req">*</span></label>
+        <input type="tel" id="phone" placeholder="050-0000000" autocomplete="off" dir="ltr"/>
+        <div class="error-msg">נא להזין מספר טלפון תקין</div>
+      </div>
+
+      <div class="field-group" id="fieldGender">
+        <label>העדפת מטפל/ת <span class="req">*</span></label>
+        <div class="gender-group">
+          <label class="gender-option">
+            <input type="radio" name="gender" value="male"/>
+            <div class="gender-label">
+              <span class="icon">👨</span>
+              <span class="text">מטפל</span>
+              <span class="sub">זכר</span>
+            </div>
+          </label>
+
+          <label class="gender-option">
+            <input type="radio" name="gender" value="female"/>
+            <div class="gender-label">
+              <span class="icon">👩</span>
+              <span class="text">מטפלת</span>
+              <span class="sub">נקבה</span>
+            </div>
+          </label>
+        </div>
+        <div class="error-msg" id="genderError">נא לבחור מטפל או מטפלת</div>
+      </div>
+
+      <div class="field-group" id="fieldSlot">
+        <div class="slots-header">
+          <label style="margin:0">בחרו שעה <span class="req">*</span></label>
+          <div class="avail-badge" id="slotBadge">בחרו מטפל/ת קודם</div>
+        </div>
+        <div class="slots-grid" id="slotsGrid"></div>
+        <div class="error-msg" id="slotError">נא לבחור שעה</div>
+      </div>
+
+      <button class="submit-btn" id="submitBtn" type="button">
+        🌿 אני רוצה עיסוי!
+      </button>
+    </div>
+
+    <div class="form-card success-card" id="successCard">
+      <span class="success-icon">🌊</span>
+      <div class="success-title">נרשמתם בהצלחה!</div>
+      <div class="success-detail" id="successDetail"></div>
+      <button class="back-btn" onclick="resetForm()">← הרשמה נוספת</button>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = 'https://script.google.com/macros/s/AKfycbxBKWdrVL9antbcBEwZiehsL2PxwtKo3h09Rtn9Fz3qc0MVEWOmPkpxxN7f5XXqIDg/exec';
+
+    const particlesContainer = document.getElementById('particles');
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.cssText = `
+        left: ${Math.random() * 100}%;
+        width: ${2 + Math.random() * 4}px;
+        height: ${2 + Math.random() * 4}px;
+        animation-duration: ${8 + Math.random() * 15}s;
+        animation-delay: ${Math.random() * 12}s;
+        opacity: ${0.3 + Math.random() * 0.5};
+      `;
+      particlesContainer.appendChild(p);
+    }
+
+    let selectedSlot = null;
+    let currentSlots = [];
+
+    function getSelectedPreference() {
+      const checked = document.querySelector('input[name="gender"]:checked');
+      return checked ? checked.value : '';
+    }
+
+    async function loadSlots() {
+      const preference = getSelectedPreference();
+
+      if (!preference) {
+        currentSlots = [];
+        renderSlots();
+        document.getElementById('slotBadge').textContent = 'בחרו מטפל/ת קודם';
+        return;
+      }
+
+      document.getElementById('slotBadge').textContent = 'טוען שעות...';
+
+      try {
+        const response = await fetch(`${API_URL}?action=slots&preference=${encodeURIComponent(preference)}`);
+        const result = await response.json();
+
+        if (!result.success) {
+          throw new Error(result.error || 'שגיאה בטעינת סלוטים');
+        }
+
+        handleSlotsLoaded(result);
+      } catch (error) {
+        handleServerError(error);
+      }
+    }
+
+    function handleSlotsLoaded(result) {
+      currentSlots = (result.slots || []).filter(slot => slot.availableForPreference > 0);
+      renderSlots();
+
+      const totalLeft = result.totalLeft || 0;
+      const totalCapacity = result.totalCapacity || 48;
+      const pct = totalCapacity > 0 ? (totalLeft / totalCapacity) * 100 : 0;
+
+      document.getElementById('spotsFill').style.width = pct + '%';
+      document.getElementById('spotsLeft').textContent = totalLeft;
+      document.getElementById('spotsBarText').textContent =
+        `${totalLeft} מקומות פנויים מתוך ${totalCapacity}`;
+
+      if (selectedSlot) {
+        const selectedSlotObj = currentSlots.find(s => s.time === selectedSlot);
+        if (!selectedSlotObj) {
+          selectedSlot = null;
+          document.getElementById('slotBadge').textContent = 'בחר שעה';
+        }
+      } else {
+        document.getElementById('slotBadge').textContent = currentSlots.length ? 'בחר שעה' : 'אין שעות פנויות';
+      }
+    }
+
+    function renderSlots() {
+      const grid = document.getElementById('slotsGrid');
+      grid.innerHTML = '';
+
+      if (currentSlots.length === 0) {
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#6699bb;padding:20px;font-weight:700;">בחרו קודם מטפל או מטפלת כדי לראות שעות פנויות</div>';
+        return;
+      }
+
+      currentSlots.forEach(slot => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'slot-btn' + (selectedSlot === slot.time ? ' selected' : '');
+        btn.innerHTML = `
+          <span class="slot-time">${slot.time}</span>
+          <span class="slot-avail">${slot.availableForPreference} פנוי</span>
+        `;
+        btn.onclick = () => selectSlot(slot.time);
+        grid.appendChild(btn);
+      });
+    }
+
+    function selectSlot(time) {
+      selectedSlot = time;
+      const slot = currentSlots.find(s => s.time === time);
+      const avail = slot ? slot.availableForPreference : 0;
+
+      document.getElementById('slotBadge').textContent = `${time} — ${avail} מקומות פנויים`;
+      document.getElementById('fieldSlot').classList.remove('field-error');
+      document.getElementById('slotError').style.display = 'none';
+
+      renderSlots();
+    }
+
+    function validate() {
+      let valid = true;
+
+      const name = document.getElementById('fullName').value.trim();
+      const nameField = document.getElementById('fieldName');
+      if (name.length < 2) {
+        nameField.classList.add('field-error');
+        valid = false;
+      } else {
+        nameField.classList.remove('field-error');
+      }
+
+      const phone = document.getElementById('phone').value.trim().replace(/[^\d]/g, '');
+      const phoneField = document.getElementById('fieldPhone');
+      if (phone.length < 9) {
+        phoneField.classList.add('field-error');
+        valid = false;
+      } else {
+        phoneField.classList.remove('field-error');
+      }
+
+      const gender = document.querySelector('input[name="gender"]:checked');
+      const genderField = document.getElementById('fieldGender');
+      if (!gender) {
+        genderField.classList.add('field-error');
+        document.getElementById('genderError').style.display = 'block';
+        valid = false;
+      } else {
+        genderField.classList.remove('field-error');
+        document.getElementById('genderError').style.display = 'none';
+      }
+
+      const slotField = document.getElementById('fieldSlot');
+      if (!selectedSlot) {
+        slotField.classList.add('field-error');
+        document.getElementById('slotError').style.display = 'block';
+        valid = false;
+      } else {
+        slotField.classList.remove('field-error');
+        document.getElementById('slotError').style.display = 'none';
+      }
+
+      return valid;
+    }
+
+    async function submitForm() {
+      if (!validate()) return;
+
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'שולח...';
+
+      const payload = {
+        action: 'submit',
+        fullName: document.getElementById('fullName').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        preference: document.querySelector('input[name="gender"]:checked').value,
+        time: selectedSlot
+      };
+
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+        handleSubmitSuccess(result);
+      } catch (error) {
+        handleSubmitFailure(error);
+      }
+    }
+
+    function handleSubmitSuccess(response) {
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '🌿 אני רוצה עיסוי!';
+
+      if (!response.success) {
+        alert(response.message || response.error || 'אירעה שגיאה. נסו שוב.');
+        loadSlots();
+        return;
+      }
+
+      document.getElementById('formCard').style.display = 'none';
+      const sc = document.getElementById('successCard');
+      sc.style.display = 'block';
+
+      const prefLabel = {
+        male: 'מטפל',
+        female: 'מטפלת'
+      }[response.preference] || '';
+
+      document.getElementById('successDetail').innerHTML = `
+        <strong>${response.fullName}</strong>, נרשמתם בהצלחה!<br/>
+        🕐 שעת עיסוי: <strong>${response.time}</strong><br/>
+        👤 בחירה: <strong>${prefLabel}</strong><br/>
+        <br/>נתראה בעמדה — תצאו רגועים ומחויכים 🌿
+      `;
+
+      loadSlots();
+    }
+
+    function handleSubmitFailure(error) {
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '🌿 אני רוצה עיסוי!';
+      alert('שגיאה בשליחה: ' + (error.message || error));
+    }
+
+    function handleServerError(error) {
+      console.error(error);
+      document.getElementById('slotBadge').textContent = 'שגיאה בטעינת שעות';
+      alert('שגיאה בטעינת השעות: ' + (error.message || error));
+    }
+
+    function resetForm() {
+      document.getElementById('fullName').value = '';
+      document.getElementById('phone').value = '';
+      document.querySelectorAll('input[name="gender"]').forEach(r => r.checked = false);
+      selectedSlot = null;
+
+      ['fieldName','fieldPhone','fieldGender','fieldSlot'].forEach(id => {
+        document.getElementById(id).classList.remove('field-error');
+      });
+
+      document.getElementById('formCard').style.display = 'block';
+      document.getElementById('successCard').style.display = 'none';
+      document.getElementById('slotBadge').textContent = 'בחרו מטפל/ת קודם';
+      currentSlots = [];
+      renderSlots();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.querySelectorAll('input[name="gender"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        selectedSlot = null;
+        document.getElementById('slotBadge').textContent = 'טוען שעות...';
+        loadSlots();
+      });
+    });
+
+    document.getElementById('submitBtn').addEventListener('click', submitForm);
+
+    renderSlots();
+  </script>
+</body>
+</html>
